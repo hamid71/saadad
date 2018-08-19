@@ -1,0 +1,44 @@
+<style type='text/css'>
+    .navbar
+    {
+        background-color:#a82447 ! important;
+    }
+</style>
+<nav  class="navbar navbar-expand-sm navbar-dark bg-primary mb-5">
+    <img src="{{ asset('/images/logo.png') }}" />
+    <div class="container">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobile-nav">
+        <span class="navbar-toggle-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mobile-nav">
+            <ul class="navbar-nav mi-auto">
+                <li class="nav-item">
+                    <a href="/" class="navbar-brand">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/costByDate" class="navbar-brand">Show</a>
+                </li>
+                {# If the user role = 1 , i.e admin, show these links #}
+                {% if app.user.userRole == 1 %}
+                <li class"nav-item">
+                    <a href="/software/new" class="navbar-brand">New Software</a>
+                </li>
+                <li class"nav-item">
+                    <a href="/software/discipline" class="navbar-brand">Add New Discipline</a>
+                </li>
+                <li class"nav-item">
+                    <a href="/software/type" class="navbar-brand">Add New Type</a>
+                </li>
+                <li class"nav-item">
+                    <a  class="navbar-brand" href="{{ path('register') }}">Add New User </a>
+                </li>
+                {% endif %}
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                <li class"nav-item">
+                    <a  class="navbar-brand" href="{{ path('logout') }}">logout </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

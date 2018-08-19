@@ -1,0 +1,101 @@
+{% extends 'softwares/bootstraptable.html.twig' %}
+
+{% block title %} Software Project {% endblock %}
+
+{% block body %}
+    <style>{{ source('styles/show.css') }}</style>
+    <h1> SCEM Software Management System </h1>
+    <div>
+        <form name="form" action="{{path('costByDate')}}" method="get">
+        <label for="from">From Date:</label>
+        <input name="from" type="date">
+        <label for="to">To Date:</label>
+        <input name="to"  type="date">
+        {# remove any repeated type or discipline #}
+        {% set existingIds = [] %}
+        <select name="type">
+            <option value="" selected>Select by Type</option>
+            {% for software in softwares %}
+            {% if software.Type  not in existingIds %}
+            <option value="{{ software.Type }}">{{ software.Type }}</option>
+            {% set existingIds = existingIds|merge([software.type]) %}
+            {% endif %}
+            {% set selected = 'selected' %}
+            {% endfor %}
+        </select>
+        
+        <select name="discipline">
+            <option value="" selected>Select by Discipline</option>
+            {% for software in softwares %}
+            {% if software.discipline  not in existingIds %}
+            <option value="{{ software.discipline }}">{{ software.discipline }}</option>
+            {% set existingIds = existingIds|merge([software.discipline]) %}
+            {% endif %}
+            {% endfor %}  
+        </select>
+        <select name="find">
+            <option value="/costByDate" selected>Search</option>
+            <option value="/export">Export to CSV</option>
+        </select>
+        
+        <button type="submit" class="btn btn-default btn-sm">Search Now</button>
+        </form>
+    </div>
+    <hr>
+
+  {% if softwares %}
+        <table id="example" align = center class="table table-striped table-bordered nowrap">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        {# Show cost,cost centre, purchase date and expire date in asc or des order #}
+                        <th>{{ knp_pagination_sortable (softwares,'Cost $','bp.cost') }}</th>
+                        <th>{{ knp_pagination_sortable (softwares,'Cost Centre','bp.costcentre') }}</th>
+                        <th>{{ knp_pagination_sortable (softwares,'Purchase Date','bp.datepurchase') }}</th>
+                        <th>{{ knp_pagination_sortable (softwares,'Expire Date','bp.expiredate') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% set x = 0  %}
+                    {% for software in softwares %}
+                        <tr>
+                        {% set date = software.expiredate|date('d-m-Y') %}
+                        {% set today = "now"|date('d-m-Y') %}
+                        {% set difference = date(date).diff(date(today)) %}
+                        {% set leftDays = difference.days %}
+                        {% if leftDays <= 28 %}
+                            <td><b>{{ software.discipline }}</b></td>
+                            <td><b>{{ software.type }}</b></td>
+                            <td><b>{{ software.cost }}</b></td>
+                            <td><b>{{ software.costcentre }}</b></td>
+                            <td><b>{{ software.datepurchase|date('d-m-Y') }}</b></td>
+                            <td><b>{{ software.expiredate|date('d-m-Y') }}</b></td>
+                        </tr>
+                       {% else %}
+                        <tr>
+                            <td>{{ software.discipline }}</td>
+                            <td>{{ software.type }}</td>
+                            <td>{{ software.cost }}</td>
+                            <td>{{ software.costcentre }}</td>
+                            <td>{{ software.datepurchase|date('d-m-Y') }}</td>
+                            <td>{{ software.expiredate|date('d-m-Y') }}</td>
+                        </tr>
+                       {% endif %}
+                       {% set totalCost = software.cost %}
+                       {% set  x = x + totalCost %}
+                    {% endfor %}  
+                       <td name="page">Total Cost : $ {{ x }} </td> 
+                </tbody>
+        </table> 
+        
+    {% endif %}  
+                
+{% endblock %}
+
+{% block javascripts %}
+ <script src="/js/main.js"></script>
+{% endblock %}
+ 
+
+

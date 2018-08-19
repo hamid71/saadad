@@ -1,0 +1,163 @@
+{% extends 'softwares/bootstraptable.html.twig' %}
+
+{% block title %} Software Project {% endblock %}
+
+{% block body %}
+<h1> SCEM Software Management System </h1>
+<style>{{ source('styles/show.css') }}</style>
+<div>
+    <form action = "{{ path('software_list') }}" method = "get">
+    <select name="filter">
+    <option value="" selected>Enter software name</option>
+    {% for software in softwares %}
+     <option value="{{ software.id}}">{{ software.name }}</option>
+     {% endfor %}
+    </select>
+    <button type="submit" class="btn btn-default btn-sm">Search Now</button>
+    </form>
+</div>
+<hr>
+  {% if softwares %}
+        <table id="software" align = center class="table table-striped table-bordered nowrap">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Version</th>
+                        <th>Cost</th>
+                        <th>Description</th>
+                        <th>Date_purchase</th>
+                        <th>Expiredate</th>    
+                        <th>Requiredby</th>    
+                        <th>Contact</th>    
+                        <th>Free</th>    
+                        <th>scem_lab</th>    
+                        <th>scem_lic</th>    
+                        <th>Floating</th>    
+                        <th>Vendor</th>   
+                        <th>Cost_centre</th>   
+                        <th>Remark</th>   
+                        <th>Type</th>   
+                        <th>Discipline</th>
+                        <th>Invoice</th>
+                        <th>Quatation</th>
+                        <th>Purchase Order</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for software in softwares %}
+                        <tr>
+                        {# Set today's date, then find the difference between expire date and today 
+                        if less than or equal 28 days then give the row different colour #}
+                        {% set date = software.expiredate|date('d-m-Y') %}
+                        {% set today = "now"|date('d-m-Y') %}
+                        {% set difference = date(date).diff(date(today)) %}
+                        {% set leftDays = difference.days %}
+                        {% if leftDays <= 28 %}
+                        <td><b>{{ loop.index }}</b></td>
+                        <td><b>{{ software.name }}</b></td>
+                        <td><b>{{ software.version }}</b></td>
+                        <td><b>{{ software.cost }}</b></td>
+                        <td><b>{{ software.description }}</b></td>
+                        <td><b>{{ software.datepurchase|date('Y-m-d ') }}</b></td> 
+                        <td><b>{{ software.expiredate|date('Y-m-d ') }}</b></td>
+                        <td><b>{{ software.requiredby }}</b></td>
+                        <td><b>{{ software.contact }}</b></td>
+                        <td><b>{{ software.free }}</b></td>
+                        <td><b>{{ software.scemlab }}</b></td>
+                        <td><b>{{ software.scemlic }}</b></td>
+                        <td><b>{{ software.floating }}</b></td>
+                        <td><b>{{ software.vendor }}</b></td>
+                        <td><b>{{ '%05d'|format(software.costcentre) }}</b></td>
+                        <td><b>{{ software.remark }}</b></td>
+                        <td><b>{{ software.Type }}</b></td>
+                        <td><b>{{ software.discipline }}</b></td>
+                        <td><b> {% if (software.invoice) is empty %}
+                                    <p> No Invoice to show</p>
+                                {% else %}
+                                    <a href="{{ asset('uploads/invoices/' ~ software.invoice) }}">View invoice (PDF)</a>
+                                {% endif %}
+                            </b></td>
+                            <td><b>{% if (software.quatation) is empty %}
+                                    <p> No Quatation to show</p>
+                                {% else %}
+                                    <a href="{{ asset('uploads/quatations/' ~ software.quatation) }}">View quatation(PDF)</a></b></td>
+                                {% endif %}
+                            <td><b>{% if (software.purchesorder) is empty %}
+                                    <p> No Quatation to show</p>
+                                {% else %}
+                                    <a href="{{ asset('uploads/purchesorders/' ~ software.purchesorder) }}">View purchesorder (PDF)</a></b></td>
+                                {% endif %}
+                    {% else %} 
+                        <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ software.name }}</td>
+                        <td>{{ software.version }}</td>
+                        <td>{{ software.cost }}</td>
+                        <td>{{ software.description }}</td>
+                        <td>{{ software.datepurchase|date('Y-m-d ') }}</td> 
+                        <td>{{ software.expiredate|date('Y-m-d ') }}</td>
+                        <td>{{ software.requiredby }}</td>
+                        <td>{{ software.contact }}</td>
+                        <td>{{ software.free }}</td>
+                        <td>{{ software.scemlab }}</td>
+                        <td>{{ software.scemlic }}</td>
+                        <td>{{ software.floating }}</td>
+                        <td>{{ software.vendor }}</td>
+                        <td>{{ '%05d'|format(software.costcentre) }}</td>
+                        <td>{{ software.remark }}</td>
+                        <td>{{ software.Type }}</td>
+                        <td>{{ software.discipline }}</td>
+                        <td> {% if (software.invoice) is empty %}
+                                    <p> No Invoice to show</p>
+                                {% else %}
+                                    <a href="{{ asset('uploads/invoices/' ~ software.invoice) }}">View invoice (PDF)</a>
+                                {% endif %}
+                            </td>
+                            <td>{% if (software.quatation) is empty %}
+                                    <p> No Quatation to show</p>
+                                {% else %}
+                                    <a href="{{ asset('uploads/quatations/' ~ software.quatation) }}">View quatation(PDF)</a></td>
+                                {% endif %}
+                            <td>{% if (software.purchesorder) is empty %}
+                                    <p> No Quatation to show</p>
+                                {% else %}
+                                    <a href="{{ asset('uploads/purchesorders/' ~ software.purchesorder) }}">View purchesorder (PDF)</a></td>
+                                {% endif %}
+                    {% endif %}
+                   
+                    {% if app.user.userRole == 1 %}  
+                        <td><a href="/software/edit/{{software.id}}" class="btn btn-light">Edit</a></td>
+                        <td><a href="#" class="btn btn-danger delete-article" data-id="{{ software.id }}">Delete</a></td>
+                        </tr>
+                    {% endif %}    
+                    {% endfor %}
+                </tbody>
+            </table>
+    {% else %}
+        <p> No Software to display</p>
+    {% endif %}
+
+    {# select number of rows display per page #}
+    <div>
+        <form action="{{path('software_list')}}" method="get">
+            <select name="pages">
+                <option value="" selected>Rows per page</option>
+                <option value="{{ 3 }}">{{ 3 }}</option>
+                <option value="{{ 4 }}">{{ 4 }}</option>
+                <option value="{{ 5 }}">{{ 5 }}</option>
+            </select>
+        <button type="submit" class="btn btn-default btn-sm">Enter</button>
+        </form>
+    </div>
+    <div class="pagination">
+        {{ knp_pagination_render (softwares) }}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+ <script src="/js/main.js"></script>
+ {% endblock %}
+ 
+
+

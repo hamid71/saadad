@@ -1,0 +1,80 @@
+@import url(https://cdn.datatables.net/v/dt/dt-1.10.18/cr-1.5.0/r-2.2.2/datatables.min.js);
+@import url(https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css);
+@import url(https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css);
+@import url(https://cdn.datatables.net/fixedheader/3.1.5/css/fixedHeader.bootstrap.min.css);
+@import url(https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css);   
+@import url(https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css);
+@import url(https://cdn.datatables.net/colreorder/1.5.1/css/colReorder.dataTables.min.css);
+        
+a.button {
+    display: inline-block;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 1px 6px;
+
+    font: 13.3333px Arial;
+    text-rendering: auto;
+    text-align: center;
+    text-transform: none;
+    text-decoration: none;
+    text-indent: 0;
+    text-shadow: none;
+    letter-spacing: normal;
+    word-spacing: normal;
+    color: buttontext;
+
+    border: 2px outset buttonface;
+    border-image: initial;
+
+    background-color: buttonface;
+
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+
+    cursor: default;
+}
+
+a.button:active {border-style: inset;}
+p.input a{
+color:#000;
+}
+h1{
+    color: #993300;
+    text-align: center;
+}
+form{
+    text-align: right;
+}
+table, th, td {
+   border: 1px solid black;
+   border-color: pink;
+}
+td {
+  border-bottom: 1px solid #CDC1A7;
+  padding: 2px;
+}
+th {
+  font-family: "Trebuchet MS", Arial, Verdana;
+  font-size: 12px;
+  padding: 2px;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: #CDC1A7;
+  background-color: #FDF5E6;
+  color: #993300;
+}
+tbody{
+    font-family: "Trebuchet MS", Arial, Verdana;
+  font-size: 12px;
+  padding: 2px;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: #CDC1A7;
+  background-color: white;
+  color: black;
+}
+b{
+    color: blue;
+    background-color: yellow;
+}

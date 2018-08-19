@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Add New Type {% endblock %}
+
+{% block body %}
+<style type='text/css'>
+h2{
+    color: #993300;
+    font-size: 20px;
+}
+</style>
+<h2>Add New Type :</h2>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+{% endblock %}
